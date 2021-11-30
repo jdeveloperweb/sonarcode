@@ -5,6 +5,7 @@ import setuptools
 
 
 from setuptools import setup, find_packages
+import pip
 
 setup(
     name='sonarcodes',
