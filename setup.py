@@ -13,5 +13,4 @@ setup(
     description='A short description of the project.',
     author='jovenil',
     license='',
-    install_requires=install_requires,
 )
