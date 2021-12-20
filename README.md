@@ -1,3 +1,3 @@
-# sonarcodes
+# sonarcode
 
 python setup.py install
