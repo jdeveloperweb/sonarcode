@@ -15,7 +15,7 @@ with pathlib.Path('requirements.txt').open() as requirements_txt:
     ]
     
 setup(
-    name="sonarcodes",
+    name="sonarcode",
     packages=find_packages(),
     version="0.1.0",
     description="A short description of the project.",
