@@ -1,7 +1,15 @@
-# Índice SP
 import numpy as np
 from sklearn.metrics import recall_score
+from sklearn.model_selection import cross_val_predict
+from sklearn.metrics import confusion_matrix
+from sklearn.model_selection import StratifiedKFold
+from sklearn.metrics import classification_report
+from sklearn.preprocessing import LabelBinarizer
+from keras.models import Sequential
+import matplotlib.pyplot as plt
 
+
+# indice sp
 def sp_index(y_true, y_pred):
     num_classes = len(np.unique(y_true))
     recall = recall_score(y_true, y_pred, average=None)
@@ -9,16 +17,11 @@ def sp_index(y_true, y_pred):
                  np.power(np.prod(recall), 1.0 / float(num_classes)))
     return sp
   
-# Plotar Matriz confusão
+
+# plotar matriz confusão
 def plota_confusao(model,x, y):
-  from sklearn.model_selection import cross_val_predict
-  from sklearn.metrics import confusion_matrix
-  from sklearn.model_selection import StratifiedKFold
-
   y_pred = model.predict_classes(x).argmax(axis=-1)
-
   fig, ax = plt.subplots()
-
   confusao = confusion_matrix(y, y_pred)
   sns.heatmap(confusao, annot=True, 
             ax=ax, fmt='d', cmap='Reds')
@@ -27,13 +30,9 @@ def plota_confusao(model,x, y):
   ax.set_xlabel("Predicted Label")
   plt.tight_layout()
   
-  # Curva de validação
-def curvalearnvalid(train_history, path):
-  from sklearn.metrics import classification_report
-  from sklearn.preprocessing import LabelBinarizer
-  from keras.models import Sequential
-  import matplotlib.pyplot as plt
 
+# Curva de validação
+def curvalearnvalid(train_history, path):
   # list all data in history
   # print(train_history.history.keys())
   # summarize history for accuracy
