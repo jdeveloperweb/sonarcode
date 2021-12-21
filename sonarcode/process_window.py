@@ -166,3 +166,39 @@ def rolling_window(array, window=(0,), asteps=None, wsteps=None, axes=None, toen
     new_shape = new_shape[new_shape != 0]
     
     return np.lib.stride_tricks.as_strided(array, shape=new_shape, strides=new_strides)
+
+
+def separar_spectro(data_dict, _tam, _step, trgt = None):
+    """
+    Auxiliary function that generates a data-target pair from the sonar runs.
+
+    params:
+        data_dict (SonarDict):
+            nested dicionary in which the basic unit contains
+            a record of the audio (signal key) in np.array format and the
+            sample_rate (fs key) stored in floating point.
+        data_dict (dict):
+            dictionary with target labels.
+    returns:
+        (np.array, np.array): Returns a tuple of data/target numpy arrays.
+    """
+
+    if trgt is None:
+      trgt = {
+          'Class1': 0,
+          'Class2': 1,
+          'Class3': 2,
+          'Class4': 3
+          }
+
+    label = np.concatenate(
+        [trgt[cls_name]*np.ones((rolling_window(dados,_tam, asteps=_step)).shape[0]) 
+        for cls_name, run in data_dict.items() 
+        for run_name, dados in run.items()]
+        )
+    data = np.concatenate(
+        [rolling_window(dados,_tam, asteps=_step)
+         for cls_name, run in data_dict.items() 
+         for run_name, dados in run.items()], axis=0
+         )
+    return data, label
