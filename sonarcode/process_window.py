@@ -202,3 +202,33 @@ def separar_spectro(data_dict, _tam, _step, trgt = None):
          for run_name, dados in run.items()], axis=0
          )
     return data, label
+
+def separar_run(data_dict, _tam, _step, navios, trgt = None):
+    if trgt is None:
+      trgt = {
+          'Class1': 0,
+          'Class2': 1,
+          'Class3': 2,
+          'Class4': 3
+          }
+    y_train = np.concatenate(
+        [trgt[cls_name]*np.ones((rolling_window(dados,_tam, asteps=_step)).shape[0]) 
+        for cls_name, run in data_dict.items() 
+        for run_name, dados in run.items() if run_name not in navios]
+        )
+    y_test = np.concatenate(
+        [trgt[cls_name]*np.ones((rolling_window(dados,_tam, asteps=_step)).shape[0]) 
+        for cls_name, run in data_dict.items() 
+        for run_name, dados in run.items() if run_name in navios]
+        )
+    x_train = np.concatenate(
+        [rolling_window(dados,_tam, asteps=_step)
+         for cls_name, run in data_dict.items() 
+         for run_name, dados in run.items() if run_name not in navios], axis=0
+         )
+    x_test = np.concatenate(
+        [rolling_window(dados,_tam, asteps=_step)
+         for cls_name, run in data_dict.items() 
+         for run_name, dados in run.items() if run_name in navios], axis=0
+         )
+    return x_train, y_train, x_test, y_test 
