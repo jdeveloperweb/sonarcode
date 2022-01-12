@@ -199,3 +199,30 @@ def spectro(data, fs, n_pts_fft=1024, n_overlap=0,
     
 def freq_bins_cutoff(Sxx, fs, target_fs):
   raise NotImplementedError
+
+
+def preprocess_rawdata24(self, dataset_config):
+      return (
+            self.dataset
+                # .apply(lambda rr: rr['signal'])
+                .apply(lambda rr: resample(rr['signal'], rr['fs'], 
+                                           final_fs = dataset_config['fs']))
+                .apply(lofar, 
+                        dataset_config['fs']//dataset_config['preprocessing_decimation_rate'],
+                        dataset_config['preprocessing_lofar_nfft'],
+                        dataset_config['preprocessing_lofar_noverlap'],
+                        dataset_config['preprocessing_lofar_spectrum_bins_left']
+                )
+        )
+
+def preprocess_rawdata31(self, dataset_config):
+      return (
+            self.dataset
+                .apply(lambda rr: rr['signal'])
+                .apply(lofar, 
+                        dataset_config['fs']//dataset_config['preprocessing_decimation_rate'],
+                        dataset_config['preprocessing_lofar_nfft'],
+                        dataset_config['preprocessing_lofar_noverlap'],
+                        dataset_config['preprocessing_lofar_spectrum_bins_left']
+                )
+        )
