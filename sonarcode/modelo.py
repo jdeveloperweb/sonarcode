@@ -29,3 +29,20 @@ def modelomlp(data, num_classes, model_config):
   opt = Adam(lr=model_config.opt_lr,beta_1=model_config.opt_beta)
   model.compile(optimizer=opt, loss=model_config.loss, metrics=[model_config.metrics])
   return model
+
+def modelocnn(data, num_classes, model_config):
+  model = Sequential()
+  input_shape=(data.shape[1], 1)
+  model.add(Conv1D(32, kernel_size=5,padding = 'same', activation='relu', input_shape=input_shape))
+  model.add(LeakyReLU(alpha=0.2))
+  model.add(MaxPooling1D())
+  model.add(Dropout(0.5))
+  model.add(Conv1D(32, kernel_size=5,padding = 'same',activation='relu'))
+  model.add(LeakyReLU(alpha=0.2))
+  model.add(MaxPooling1D())
+  model.add(Dropout(0.5))
+  model.add(Flatten())
+  model.add(Dense(50, activation='relu'))
+  model.add(Dropout(0.5))
+  model.add(Dense(num_classes, activation='softmax'))
+  return model
