@@ -203,26 +203,25 @@ def freq_bins_cutoff(Sxx, fs, target_fs):
 
 def preprocess_rawdata24(data, param):
       return (
-            data.dataset
-                # .apply(lambda rr: rr['signal'])
-                .apply(lambda rr: resample(rr['signal'], rr['fs'], 
-                                           final_fs = param.fs))
-                .apply(lofar, 
-                        param.fs//param.decimate,
-                        param.n_fft,
-                        param.overlap,
-                        param.bins
-                )
-        )
+            data
+              # .apply(lambda rr: rr['signal'])
+              .apply(lambda rr: resample(rr['signal'], rr['fs'], 
+                                         final_fs = param.fs))
+              .apply(lofar, 
+                     param.fs//param.decimate,
+                     param.n_fft,
+                     param.overlap,
+                     param.bins
+                    )
+      )
 
 def preprocess_rawdata31(data, param):
       return (
-            data.dataset
-                .apply(lambda rr: rr['signal'])
-                .apply(lofar, 
-                        param.fs//param.decimate,
-                        param.n_fft,
-                        param.overlap,
-                        param.bins
-                )
-        )
+            data.apply(lambda rr: rr['signal'])
+              .apply(lofar, 
+                     param.fs//param.decimate,
+                     param.n_fft,
+                     param.overlap,
+                     param.bins
+                    )
+      )
