@@ -201,9 +201,9 @@ def freq_bins_cutoff(Sxx, fs, target_fs):
   raise NotImplementedError
 
 
-def preprocess_rawdata24(self, dataset_config):
+def preprocess_rawdata24(data, dataset_config):
       return (
-            self.dataset
+            data.dataset
                 # .apply(lambda rr: rr['signal'])
                 .apply(lambda rr: resample(rr['signal'], rr['fs'], 
                                            final_fs = dataset_config['fs']))
@@ -215,9 +215,9 @@ def preprocess_rawdata24(self, dataset_config):
                 )
         )
 
-def preprocess_rawdata31(self, dataset_config):
+def preprocess_rawdata31(data, dataset_config):
       return (
-            self.dataset
+            data.dataset
                 .apply(lambda rr: rr['signal'])
                 .apply(lofar, 
                         dataset_config['fs']//dataset_config['preprocessing_decimation_rate'],
