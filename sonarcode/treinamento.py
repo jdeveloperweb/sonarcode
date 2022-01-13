@@ -12,6 +12,7 @@ def padronizaconjunto(data, tipo):
   elif tipo == 'mapminmax':
     obj_std = preprocessing.MinMaxScaler().fit(data)
   data_std = obj_std.transform(data) #aplica o padronizador nos dados
+  data_std = pd.DataFrame(data_std) # transforma em dataFrame
   return data_std, obj_std
 
 
