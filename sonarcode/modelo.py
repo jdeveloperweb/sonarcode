@@ -2,7 +2,7 @@
 import keras
 from keras.models import Model, Sequential
 from keras.layers import LSTM, Dense, Dropout, Flatten
-from keras.layers import Conv1D
+from keras.layers import Conv1D, Conv2D
 from tensorflow.keras.optimizers import Adam
 
 
