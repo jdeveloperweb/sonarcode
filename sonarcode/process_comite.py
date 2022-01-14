@@ -20,10 +20,10 @@ def generate_images(run_data, window_size: int, window_step: int, trgt_multiplie
     return image_data
 
 
-def generate_data_trgt(processed_data_dict, modelo,trgt_label_map=None, dataset_config):
+def generate_data_trgt(processed_data_dict, modelo, sublofar_config, trgt_label_map=None):
 
-    window_size = dataset_config.sublofar_size
-    window_step = dataset_config.sublofar_step
+    window_size = sublofar_config.sublofar_size
+    window_step = sublofar_config.sublofar_step
     
     if trgt_label_map is None:
         trgt_label_map = classe_target
