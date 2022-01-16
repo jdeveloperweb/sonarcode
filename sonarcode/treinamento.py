@@ -1,6 +1,8 @@
 import numpy as np
 from sklearn import preprocessing
 import pandas as pd
+import datetime
+import keras.callbacks as callbacks
 
 # função de padronização
 def padronizaconjunto(data, tipo):
@@ -29,10 +31,25 @@ def melhor_modelo(sp_fold,val_fold):
   if n_max > 1:
     ind_model = [(n) for n, x in enumerate(sp_fold) if x== max(sp_fold)] # Quais indices?
     val_model = [val_fold[x] for x in ind_model] # Valores de validação dos indices
-    best_model = val_model.index(max(val_model))
+    return val_model.index(max(val_model))
   else:
-    best_model = sp_fold.index(max(sp_fold))
-    return best_model
+    return sp_fold.index(max(sp_fold))
+
   
-  
-  
+# função de controle (TensorBoard + Early Stopping + CheckPoint)
+def control_train(train_config, log_dir, modelpath):
+
+  tensor_board = [callbacks.TensorBoard(log_dir=log_dir)]
+
+  earlystopping = callbacks.EarlyStopping(monitor='val_loss',
+                                          patience=train_config.patience, 
+                                          verbose=True, 
+                                          mode='min')
+    
+  checkpoint = callbacks.ModelCheckpoint(filepath=modelpath, 
+                                         monitor='val_loss',
+                                         verbose=0, 
+                                         save_best_only=True,
+                                         mode='min')
+ 
+  return [earlystopping,checkpoint, tensor_board]
