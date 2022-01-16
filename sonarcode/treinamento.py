@@ -43,7 +43,8 @@ def control_train(train_config, log_dir, modelpath):
 
   earlystopping = callbacks.EarlyStopping(monitor='val_loss',
                                           patience=train_config.patience, 
-                                          verbose=True, 
+                                          verbose=True,
+                                          restore_best_weights=True,
                                           mode='min')
     
   checkpoint = callbacks.ModelCheckpoint(filepath=modelpath, 
