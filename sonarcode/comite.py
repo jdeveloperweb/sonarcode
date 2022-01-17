@@ -103,6 +103,6 @@ def mapeamento_classe(comite, classificador, label, hier_label):
   return None
 
 def changelabel_comite(lista, label):
-    return [(lista.index(x) for x in lista if label in x]
+    return [lista.index(x) for x in lista if label in x]
     # return [(lista.index(x), x.index(label)) for x in lista if label in x]
     
