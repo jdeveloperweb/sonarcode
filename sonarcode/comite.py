@@ -82,7 +82,7 @@ def dataset_comite(classificador, loc_x, loc_y, class_comite, model_config):
         y_classe = loc_y.iloc[_classe]
         return pd.DataFrame(x_classe), pd.DataFrame(y_classe)
     elif model_config.rede =='cnn':
-        indices = np.concatenate([np.where(loc_y==x)[0].tolist() for x in class_comite[classificador]], axis=0)
+        indices = np.concatenate([np.where(loc_y==x-1)[0].tolist() for x in class_comite[classificador]], axis=0)
         return loc_x[indices], loc_y[indices]
 
 # função utiliza a clafficador e o label e retorna em que saída o label vai se tornar no classificador
