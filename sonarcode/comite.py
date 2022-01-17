@@ -4,6 +4,7 @@
 import networkx as nx
 import random
 import pandas as pd
+import numpy as np
 
 
 def hierarchy_pos(G, root=None, width=1., vert_gap = 0.2, vert_loc = 0, xcenter = 0.5):
