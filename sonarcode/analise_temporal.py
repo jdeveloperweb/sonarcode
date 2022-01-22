@@ -38,3 +38,12 @@ def preprocess_rawtempo(raw_data, filtro, phase, process_config):
             .apply(lambda rr: rr['signal'])
             .apply(time_process, filtro, phase, process_config)
     )
+
+  # Processamento da análise temporal
+def preprocess_raw24tempo(raw_data, filtro, phase, process_config):
+    return (
+        raw_data
+            .apply(lambda rr: resample(rr['signal'], rr['fs'], 
+                                         final_fs = process_config.fs))
+            .apply(time_process, filtro, phase, process_config)
+    )
