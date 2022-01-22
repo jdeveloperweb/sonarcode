@@ -2,6 +2,8 @@ import numpy as np
 from scipy.signal import decimate 
 from scipy.signal import cheby2, cheb2ord
 from scipy import signal
+from fractions import Fraction
+import scipy
 
 def time_process(data, ftype_input, zero_phase_input, process_config):
   dec = process_config.decimate
