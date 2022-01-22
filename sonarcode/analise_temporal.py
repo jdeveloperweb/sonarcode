@@ -30,3 +30,11 @@ def dec_filtro(process_config):
   N, wc = signal.cheb2ord(wp, ws, Ap, As)
   filtro = signal.cheby2(N, As, wc, 'low', output='sos')
   return filtro
+
+# Processamento da análise temporal
+def preprocess_rawtempo(raw_data, filtro, phase, process_config):
+    return (
+        raw_data
+            .apply(lambda rr: rr['signal'])
+            .apply(time_process, filtro, phase, process_config)
+    )
