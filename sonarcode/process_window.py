@@ -196,11 +196,19 @@ def separar_spectro(data_dict, _tam, _step, trgt = None):
         for cls_name, run in data_dict.items() 
         for run_name, dados in run.items()]
         )
-    data = np.concatenate(
-        [rolling_window(dados,_tam, asteps=_step)
-         for cls_name, run in data_dict.items() 
-         for run_name, dados in run.items()], axis=0
-         )
+    
+    if len(trgt) == 24:
+        data = np.concatenate(
+            [rolling_window(np.asarray(dados).reshape(-1),_tam, asteps=_step) 
+            for cls_name, run in data_dict.items() 
+            for run_name, dados in run.items()], axis=0
+            )
+    else:
+        data = np.concatenate(
+            [rolling_window(dados,_tam, asteps=_step) 
+            for cls_name, run in data_dict.items() 
+            for run_name, dados in run.items()], axis=0
+            )
     return data, label
 
 def separar_run(data_dict, _tam, _step, navios, trgt = None):
