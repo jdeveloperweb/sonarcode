@@ -190,20 +190,25 @@ def separar_spectro(data_dict, _tam, _step, label_tipo, trgt = None):
           'Class3': 2,
           'Class4': 3
           }
-
-    label = np.concatenate(
-        [trgt[cls_name]*np.ones((rolling_window(dados,_tam, asteps=_step)).shape[0]) 
-        for cls_name, run in data_dict.items() 
-        for run_name, dados in run.items()]
-        )
     
     if label_tipo == "24classes":
+        
+        label = np.concatenate(
+            [trgt[cls_name]*np.ones((rolling_window(np.asarray(dados).reshape(-1),_tam, asteps=_step)).shape[0]) 
+             for cls_name, run in data_dict.items() 
+             for run_name, dados in run.items()])
+            
         data = np.concatenate(
             [rolling_window(np.asarray(dados).reshape(-1),_tam, asteps=_step) 
-            for cls_name, run in data_dict.items() 
-            for run_name, dados in run.items()], axis=0
-            )
+             for cls_name, run in data_dict.items() 
+             for run_name, dados in run.items()], axis=0)
     else:
+        
+        label = np.concatenate(
+            [trgt[cls_name]*np.ones((rolling_window(dados,_tam, asteps=_step)).shape[0]) 
+            for cls_name, run in data_dict.items() 
+            for run_name, dados in run.items()])
+            
         data = np.concatenate(
             [rolling_window(dados,_tam, asteps=_step) 
             for cls_name, run in data_dict.items() 
