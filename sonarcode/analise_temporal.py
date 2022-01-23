@@ -7,6 +7,10 @@ import scipy
 
 def time_process(data, ftype_input, zero_phase_input, process_config):
   dec = process_config.decimate
+  # transformar os dados de stereo para mono
+  if data.ndim == 2: # temporary fix for stereo audio. 
+    data = data.mean(axis=1)
+    data = data.squeeze()
   if dec == 1: # decimação do sinal
     data_dec = data.copy()
   else:
