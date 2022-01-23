@@ -197,7 +197,7 @@ def separar_spectro(data_dict, _tam, _step, trgt = None):
         for run_name, dados in run.items()]
         )
     
-    if len(trgt) == 24:
+    if len(trgt) == 1000:
         data = np.concatenate(
             [rolling_window(np.asarray(dados).reshape(-1),_tam, asteps=_step) 
             for cls_name, run in data_dict.items() 
