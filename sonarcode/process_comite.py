@@ -20,7 +20,7 @@ def generate_images(run_data, window_size: int, window_step: int, trgt_multiplie
     return image_data
 
 
-def generate_data_trgt(processed_data_dict, modelo, sublofar_config, trgt_label_map=None):
+def generate_datalofar_trgt(processed_data_dict, tipo, sublofar_config, trgt_label_map=None):
 
     window_size = sublofar_config.sublofar_size
     window_step = sublofar_config.sublofar_step
@@ -28,7 +28,7 @@ def generate_data_trgt(processed_data_dict, modelo, sublofar_config, trgt_label_
     if trgt_label_map is None:
         trgt_label_map = classe_target
     
-    if modelo.rede == "mlp":
+    if tipo == "lofar":
   
       trgt = np.concatenate(
           [trgt_label_map[cls_name]*np.ones(Sxx[0].shape[0]) 
@@ -41,7 +41,7 @@ def generate_data_trgt(processed_data_dict, modelo, sublofar_config, trgt_label_
           for run_name, Sxx in run.items()], axis=0
           )
       
-    elif modelo.rede == "cnn":  
+    elif tipo == "sublofar":  
       data = np.concatenate(
           [generate_images(Sxx[0],window_size=window_size,
                           window_step=window_step, 
