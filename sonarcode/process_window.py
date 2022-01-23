@@ -168,7 +168,7 @@ def rolling_window(array, window=(0,), asteps=None, wsteps=None, axes=None, toen
     return np.lib.stride_tricks.as_strided(array, shape=new_shape, strides=new_strides)
 
 
-def separar_spectro(data_dict, _tam, _step, trgt = None):
+def separar_spectro(data_dict, _tam, _step, label_tipo, trgt = None):
     """
     Auxiliary function that generates a data-target pair from the sonar runs.
 
@@ -197,7 +197,7 @@ def separar_spectro(data_dict, _tam, _step, trgt = None):
         for run_name, dados in run.items()]
         )
     
-    if len(trgt) == 1000:
+    if label_tipo == "24classes":
         data = np.concatenate(
             [rolling_window(np.asarray(dados).reshape(-1),_tam, asteps=_step) 
             for cls_name, run in data_dict.items() 
