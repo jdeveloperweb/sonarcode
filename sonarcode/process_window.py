@@ -168,7 +168,26 @@ def rolling_window(array, window=(0,), asteps=None, wsteps=None, axes=None, toen
     return np.lib.stride_tricks.as_strided(array, shape=new_shape, strides=new_strides)
 
 
-def separar_spectro(data_dict, _tam, _step, label_tipo, trgt = None):
+def generate_subtempo(run_data, window_size: int, window_step: int, trgt_multiplier: int, normalize = True):
+    pruned_indexes = list(range(0, len(run_data) - window_size, window_step))
+    
+    # Creating a tensor with dimensions #of_images x window size x spectrum bins
+    data_shape = (
+        len(pruned_indexes), window_size, run_data.shape[1], 1)
+    # Allocating memory for the tensors
+    image_data = np.zeros(shape=data_shape)
+
+    # Separating the data
+    for image_index, spectrum_index in enumerate(pruned_indexes):
+        windowed_data = run_data[spectrum_index:spectrum_index + window_size, :]
+        if normalize:
+            windowed_data = windowed_data / np.sqrt(np.sum(windowed_data**2, axis=1, keepdims=True))
+        windowed_data = np.array(windowed_data.reshape(windowed_data.shape[0], 
+                                                       windowed_data.shape[1], 1), np.float64)
+        image_data[image_index] = windowed_data
+    return image_data
+
+def separar_spectro(data_dict, tipo, subtempo_config, _tam, _step, label_tipo, trgt = None):
     """
     Auxiliary function that generates a data-target pair from the sonar runs.
 
@@ -182,24 +201,40 @@ def separar_spectro(data_dict, _tam, _step, label_tipo, trgt = None):
     returns:
         (np.array, np.array): Returns a tuple of data/target numpy arrays.
     """
-
+    window_size = subtempo_config.subtempo_size
+    window_step = subtempo_config.subtempo_step
+    
     if trgt is None:
-      trgt = {
-          'Class1': 0,
-          'Class2': 1,
-          'Class3': 2,
-          'Class4': 3
-          }
-    label = np.concatenate(
-        [trgt[cls_name]*np.ones((rolling_window(dados,_tam, asteps=_step)).shape[0]) 
-         for cls_name, run in data_dict.items() 
-         for run_name, dados in run.items()])
-            
-    data = np.concatenate(
-        [rolling_window(dados,_tam, asteps=_step) 
-         for cls_name, run in data_dict.items() 
-         for run_name, dados in run.items()], axis=0)
-        
+      trgt = trgt
+    
+    if tipo == "tempo":
+        label = np.concatenate(
+            [trgt[cls_name]*np.ones((rolling_window(dados,_tam, asteps=_step)).shape[0]) 
+             for cls_name, run in data_dict.items() 
+             for run_name, dados in run.items()]
+        )
+        data = np.concatenate(
+            [rolling_window(dados,_tam, asteps=_step) 
+             for cls_name, run in data_dict.items() 
+             for run_name, dados in run.items()], axis=0)
+    elif tipo== "subtempo":
+        label = np.concatenate(
+            [trgt[cls_name]*np.ones(
+                ((generate_subtempo(
+                    rolling_window(dados,_tam, asteps=_step), window_size=window_size,
+                                                      window_step=window_step,
+                                                      trgt_multiplier=trgt[cls_name])
+                 ).shape[0],1)
+            )
+             for cls_name, run in data_dict.items() 
+             for run_name, dados in run.items()]
+        )
+        data = np.concatenate(
+            [generate_subtempo(rolling_window(dados,_tam, asteps=_step), window_size=window_size,
+                            window_step=window_step,
+                            trgt_multiplier=trgt[cls_name]) 
+             for cls_name, run in data_dict.items() 
+             for run_name, dados in run.items()], axis=0)
     # if label_tipo == "24classes":
     #    
     #     label = np.concatenate(
