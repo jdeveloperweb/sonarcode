@@ -78,3 +78,58 @@ class Resultados:
     plt.legend(['train', 'valid'], loc='upper left')
     plt.savefig(str(self.curvas) + str(nome) + '_loss.png')
     plt.close()
+
+    
+def criar_pastas(path_config, pretrain_config, train_config, lofar_config, 
+                 cnn_config, lstm_config, mlp_config, dataset_config):
+  
+  # variaveis iniciais
+  allpasta = [path_config.curvas, path_config.logs, 
+              path_config.modelos, path_config.his_obj, path_config.his_plan]  
+  ender_cnn, ender_lstm, ender_mlp = None, None, None
+  
+  # cria estrutura até as janelas
+  for pasta in allpasta:
+
+    allender, newender, outender = [], [], []
+
+    if dataset_config.tipo =="normal":
+      ender = path_config.diretorio(pasta+'window_'+str(lofar_config.sublofar_size) \
+                                    +'_step_'+str(lofar_config.sublofar_step))
+    elif dataset_config.tipo =="comite":
+      ender = path_config.diretorio(pasta+'comite_window_'+str(lofar_config.sublofar_size) \
+                                    +'_step_'+str(lofar_config.sublofar_step))
+
+    # cria estrutura a partir da rede
+    if pretrain_config.rede_cnn:
+      ender_cnn = ender+'/cnn_'+str(cnn_config.neucnn_1)
+      if cnn_config.neucnn_2 != 0:
+        ender_cnn = ender_cnn+'_'+str(cnn_config.neucnn_2)  
+      if cnn_config.neumlp_1 != 0:
+        ender_cnn = ender_cnn+'_mlp_'+str(cnn_config.neumlp_1)
+      if cnn_config.neumlp_2 != 0:
+        ender_cnn = ender_cnn+'_'+str(cnn_config.neumlp_2)
+      allender.append(ender_cnn)
+
+    if pretrain_config.rede_lstm:
+      ender_lstm = ender+'/lstm_'+str(lstm_config.neulstm_1)
+      if lstm_config.neulstm_2 != 0:
+        ender_lstm = ender_lstm+'_'+str(lstm_config.neulstm_2)  
+      if lstm_config.neumlp_1 != 0:
+        ender_lstm = ender_lstm+'_mlp_'+str(lstm_config.neumlp_1)
+      if lstm_config.neumlp_2 != 0:
+        ender_lstm = ender_lstm+'_'+str(lstm_config.neumlp_2)
+      allender.append(ender_lstm)
+
+    if pretrain_config.rede_mlp:
+      ender_mlp = ender+'/mlp_'+str(mlp_config.neumlp_1)
+      if mlp_config.neumlp_2 != 0:
+        ender_mlp = ender_mlp+'_'+str(mlp_config.neumlp_2)  
+      allender.append(ender_mlp)
+
+    # criar os diretórios
+    newender = [path_config.diretorio(x) for x in allender]
+    outender = [path_config.diretorio(x+'/epochs_'+str(train_config.epochs) \
+                                      +'_decimate_'+str(lofar_config.decimate)) for x in allender]
+  
+  return [x[x.index('window'):] if dataset_config.tipo =="normal" else x[x.index('comite'):] for x in outender]
