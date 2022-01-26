@@ -3,6 +3,7 @@ from sklearn import preprocessing
 import pandas as pd
 import datetime
 import keras.callbacks as callbacks
+from sklearn.model_selection import StratifiedKFold
 
 # função de padronização
 def padronizaconjunto(data, tipo):
@@ -54,3 +55,28 @@ def control_train(train_config, log_dir, modelpath):
                                          mode='min')
  
   return [earlystopping,checkpoint, tensor_board]
+
+# separar folds para o treinamento
+def folds_treinamento(config_train, x_data, y_data):
+    dict_train = dict.fromkeys(list(range(config_train.folds)) , None)
+    dict_valid = dict.fromkeys(list(range(config_train.folds)) , None)
+    div_fold, div_test = [], []
+    ExtSplitKfold = StratifiedKFold(n_splits=config_train.split, 
+                                shuffle=True, random_state=config_train.seed)
+    n_test = 0
+    for id_fold, id_test in ExtSplitKfold.split(x_data, y_data):
+        div_test.append(id_test)
+        div_fold.append(id_fold)
+        n_fold = 0
+        div_train, div_valid = [], []
+        # K-fold Cross Validation model evaluation
+        IntSplitKfold = StratifiedKFold(n_splits= config_train.folds, 
+                                        shuffle=True, random_state=config_train.seed)
+        for id_train, id_valid in IntSplitKfold.split(x_data[id_fold], y_data[id_fold]):
+            div_train.append(id_train)
+            div_valid.append(id_valid)
+            n_fold = n_fold+1
+        dict_train[n_test] = div_train
+        dict_valid[n_test] = div_valid
+        n_test = n_test+1
+    return div_fold, div_test, dict_train, dict_valid
