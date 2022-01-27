@@ -136,7 +136,7 @@ def criar_pastas(path_config, pretrain_config, train_config, lofar_config,
       if lstm_config.neumlp_2 != 0:
         ender_lstm_lstm = ender_lstm_lstm+'_'+str(lstm_config.neumlp_2)
       if lstm_config2.neulstm_1 != 0:
-        ender_lstm_lstm = ender_lstm_lstm+'_'+str(lstm_config2.neulstm_2)  
+        ender_lstm_lstm = ender_lstm_lstm+'_lstm_'+str(lstm_config2.neulstm_1)  
       if lstm_config2.neulstm_2 != 0:
         ender_lstm_lstm = ender_lstm_lstm+'_'+str(lstm_config2.neulstm_2)  
       if lstm_config2.neumlp_1 != 0:
