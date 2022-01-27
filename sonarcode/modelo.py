@@ -55,7 +55,7 @@ def modelocnn(data, num_classes, model_config):
   return model
 
 
-def definir_modelo2lstm(data_lofar, data_tempo, n_outputs, model_config, model_config2):
+def modelo2lstm(data_lofar, data_tempo, n_outputs, model_config, model_config2):
 
   input_shapelofar = (data_lofar.shape[1:])
   input_shapetempo = (data_tempo.shape[1:])
