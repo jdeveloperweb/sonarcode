@@ -120,12 +120,30 @@ def criar_pastas(path_config, pretrain_config, train_config, lofar_config,
       if lstm_config.neumlp_2 != 0:
         ender_lstm = ender_lstm+'_'+str(lstm_config.neumlp_2)
       allender.append(ender_lstm)
-
+    
     if pretrain_config.rede_mlp:
       ender_mlp = ender+'/mlp_'+str(mlp_config.neumlp_1)
       if mlp_config.neumlp_2 != 0:
         ender_mlp = ender_mlp+'_'+str(mlp_config.neumlp_2)  
       allender.append(ender_mlp)
+    
+    if pretrain_config.rede_lstm_lstm_mlp:
+      ender_lstm_lstm = ender+'/lstm_'+str(lstm_config.neulstm_1)
+      if lstm_config.neulstm_2 != 0:
+        ender_lstm_lstm = ender_lstm_lstm+'_'+str(lstm_config.neulstm_2)  
+      if lstm_config.neumlp_1 != 0:
+        ender_lstm_lstm = ender_lstm_lstm+'_mlp_'+str(lstm_config.neumlp_1)
+      if lstm_config.neumlp_2 != 0:
+        ender_lstm_lstm = ender_lstm_lstm+'_'+str(lstm_config.neumlp_2)
+      if lstm_config2.neulstm_1 != 0:
+        ender_lstm_lstm = ender_lstm_lstm+'_'+str(lstm_config2.neulstm_2)  
+      if lstm_config2.neulstm_2 != 0:
+        ender_lstm_lstm = ender_lstm_lstm+'_'+str(lstm_config2.neulstm_2)  
+      if lstm_config2.neumlp_1 != 0:
+        ender_lstm_lstm = ender_lstm_lstm+'_mlp_'+str(lstm_config2.neumlp_1)
+      if lstm_config2.neumlp_2 != 0:
+        ender_lstm_lstm = ender_lstm_lstm+'_'+str(lstm_config2.neumlp_2)
+      allender.append(ender_lstm_lstm)
 
     # criar os diretórios
     newender = [path_config.diretorio(x) for x in allender]
