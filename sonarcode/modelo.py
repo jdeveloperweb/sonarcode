@@ -1,9 +1,10 @@
 # implementando camada LSTM
 import keras
 from keras.models import Model, Sequential
-from keras.layers import LSTM, Dense, Dropout, Flatten
-from keras.layers import Conv1D, Conv2D
 from tensorflow.keras.optimizers import Adam
+from keras.models import Input, Model, Sequential
+from keras.layers import LSTM, Dense, Dropout, Flatten, Reshape, Conv1D, Conv2D, Concatenate, Add
+from keras.utils.vis_utils import plot_model
 
 
 def modelolstm(n_timesteps, n_features, n_outputs, model_config):
@@ -52,3 +53,39 @@ def modelocnn(data, num_classes, model_config):
   model.add(Dense(num_classes, activation=model_config.funcout))
   model.compile(optimizer=model_config.optimizer, loss=model_config.loss, metrics=[model_config.metrics])
   return model
+
+
+def definir_modelo2lstm(data_lofar, data_tempo, n_outputs, model_config, model_config2):
+
+  input_shapelofar = (data_lofar.shape[1:])
+  input_shapetempo = (data_tempo.shape[1:])
+
+  in_sublofar = Input(shape=input_shapelofar)
+  in_subtempo = Input(shape=input_shapetempo)
+
+  X = Reshape((input_shapelofar[0], input_shapelofar[1]), input_shape=input_shapelofar)(in_sublofar)
+  X = LSTM(model_config.neulstm_1)(X)
+  if model_config.use_drop:
+    X = Dropout(model_config.drop)(X)
+  X = Flatten()(X)
+  if model_config.neumlp_1 != 0:
+    X = Dense(model_config.neumlp_1, activation=model_config.funcactiv)(X)
+  outputlofar = Dense(n_outputs, activation=model_config.funcout)(X)
+
+  # _______________________________________________________________________
+
+  W = Reshape((input_shapetempo[0], input_shapetempo[1]), input_shape=input_shapetempo)(in_subtempo)
+  W = LSTM(model_config2.neulstm_1)(W)
+  if model_config2.use_drop:
+    W = Dropout(model_config2.drop)(W)
+  W = Flatten()(W)
+  if model_config2.neumlp_1 != 0:
+    W = Dense(model_config2.neumlp_1, activation=model_config2.funcactiv)(W)
+  outputtempo = Dense(n_outputs, activation=model_config2.funcout)(W)
+
+  # merge imagem gen e label input
+  merge=Concatenate()([outputlofar,outputtempo])
+  output = Dense(n_outputs, activation=model_config.funcout)(merge)
+
+  return Model([in_sublofar, in_subtempo], output)
+
