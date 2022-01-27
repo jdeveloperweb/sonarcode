@@ -54,6 +54,21 @@ def modelocnn(data, num_classes, model_config):
   model.compile(optimizer=model_config.optimizer, loss=model_config.loss, metrics=[model_config.metrics])
   return model
 
+def modelosublstm(data, n_outputs, model_config):
+
+  input_shapedata = (data.shape[1:])
+  in_subdata = Input(shape=input_shapedata)
+
+  X = Reshape((input_shapedata[0], input_shapedata[1]), input_shape=input_shapedata)(in_subdata)
+  X = LSTM(model_config.neulstm_1)(X)
+  if model_config.use_drop:
+    X = Dropout(model_config.drop)(X)
+  X = Flatten()(X)
+  if model_config.neumlp_1 != 0:
+    X = Dense(model_config.neumlp_1, activation=model_config.funcactiv)(X)
+  output = Dense(n_outputs, activation=model_config.funcout)(X)
+
+  return Model(in_subdata, output)
 
 def modelo2lstm(data_lofar, data_tempo, n_outputs, model_config, model_config2):
 
