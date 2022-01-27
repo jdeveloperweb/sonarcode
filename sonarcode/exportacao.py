@@ -81,7 +81,7 @@ class Resultados:
 
     
 def criar_pastas(path_config, pretrain_config, train_config, lofar_config, 
-                 cnn_config, lstm_config, mlp_config, dataset_config):
+                 cnn_config, lstm_config, lstm_config2, mlp_config, dataset_config):
   
   # variaveis iniciais
   allpasta = [path_config.curvas, path_config.logs, 
