@@ -9,7 +9,7 @@ from keras.utils.vis_utils import plot_model
 
 def modelolstm(n_timesteps, n_features, n_outputs, model_config):
   model = Sequential()
-  model.add(LSTM(model_config.neulstm, input_shape=(n_timesteps,n_features)))
+  model.add(LSTM(model_config.neulstm_1, input_shape=(n_timesteps,n_features)))
   if model_config.use_drop:
     model.add(Dropout(model_config.drop))
   model.add(Flatten())
