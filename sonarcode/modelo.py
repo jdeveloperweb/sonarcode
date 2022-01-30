@@ -104,3 +104,30 @@ def modelo2sublstm(data_lofar, data_tempo, n_outputs, model_config, model_config
 
   return Model([in_sublofar, in_subtempo], output)
 
+def modelo2lstm(data_lofar, data_tempo, n_outputs, model_config, model_config2):
+
+  shape_lofar = (data_lofar.shape[1],1)
+  shape_tempo = (data_tempo.shape[1],1)
+
+  in_lofar = Input(shape=shape_lofar)
+  in_tempo = Input(shape=shape_tempo)
+
+  X = LSTM(model_config.neulstm_1)(in_lofar)
+  if model_config.use_drop:
+    X = Dropout(model_config.drop)(X)
+  X = Flatten()(X)
+  if model_config.neumlp_1 != 0:
+    X = Dense(model_config.neumlp_1, activation=model_config.funcactiv)(X)
+  outputlofar = Dense(n_outputs, activation=model_config.funcout)(X)
+  # _______________________________________________________________________
+  W = LSTM(model_config2.neulstm_1)(in_tempo)
+  if model_config2.use_drop:
+    W = Dropout(model_config2.drop)(W)
+  W = Flatten()(W)
+  if model_config2.neumlp_1 != 0:
+    W = Dense(model_config2.neumlp_1, activation=model_config2.funcactiv)(W)
+  outputtempo = Dense(n_outputs, activation=model_config2.funcout)(W)
+  # merge imagem gen e label input
+  merge=Concatenate()([outputlofar,outputtempo])
+  output = Dense(n_outputs, activation=model_config.funcout)(merge)
+  return Model([in_lofar, in_tempo], output)
