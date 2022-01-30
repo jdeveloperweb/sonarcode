@@ -70,7 +70,7 @@ def modelosublstm(data, n_outputs, model_config):
 
   return Model(in_subdata, output)
 
-def modelo2lstm(data_lofar, data_tempo, n_outputs, model_config, model_config2):
+def modelo2sublstm(data_lofar, data_tempo, n_outputs, model_config, model_config2):
 
   input_shapelofar = (data_lofar.shape[1:])
   input_shapetempo = (data_tempo.shape[1:])
