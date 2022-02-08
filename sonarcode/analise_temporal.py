@@ -14,7 +14,7 @@ def time_process(data, ftype_input, zero_phase_input, process_config):
   if dec == 1: # decimação do sinal
     data_dec = data.copy()
   else:
-    data_dec = decimate(data,dec, ftype=ftype_input, zero_phase=zero_phase_input)
+    data_dec = decimate(data,round(process_config.fs/dec), ftype=ftype_input, zero_phase=zero_phase_input)
   h = dec_filtro(process_config) # filtro passa baixa
   data_fil = signal.sosfilt(h, data_dec)
   if process_config.normalize == True:
