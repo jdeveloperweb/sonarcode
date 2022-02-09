@@ -23,9 +23,13 @@ def modelolstm(n_timesteps, n_features, n_outputs, model_config):
 def modelomlp(data, num_classes, model_config):
   n_steps = data.shape[1]
   model = Sequential()
-  model.add(Dense(model_config.neumlp, activation=model_config.funcactiv, input_dim=n_steps))
+  model.add(Dense(model_config.neumlp_1, activation=model_config.funcactiv, input_dim=n_steps))
   if model_config.use_drop:
     model.add(Dropout(model_config.drop))
+  if model_config.neumlp_2 != 0:
+    model.add(Dense(model_config.neumlp_2, activation=model_config.funcactiv))
+    if model_config.use_drop:
+      model.add(Dropout(model_config.drop))
   model.add(Dense(num_classes, activation=model_config.funcout))
   opt = Adam(lr=model_config.opt_lr,beta_1=model_config.opt_beta)
   model.compile(optimizer='adam', loss=model_config.loss, metrics=[model_config.metrics])
