@@ -30,6 +30,10 @@ class Analise:
     with open(self.objeto+'/'+_end+'/'+str(nome) + '_test_' + str(test) + '_fold_' + str(fold), 'wb') as file:
         pickle.dump(historico.history, file)
   
+  def save_dados(self, historico,_end, nome, test, fold): # salvar objeto do modelo treinado
+    with open(self.objeto+'/'+_end+'/'+str(nome) + '_test_' + str(test) + '_fold_' + str(fold), 'wb') as file:
+        pickle.dump(historico, file)
+        
   def save_csv(self, data,_end, nome, test, fold): # salvar planilha do modelo treinado
     with open(self.planilha+'/'+_end+'/'+str(nome) + '_test_' + str(test) + '_fold_' + str(fold) + '.csv', 'wb') as file:
       data.to_csv(file.name, encoding='utf-8', index=True)
