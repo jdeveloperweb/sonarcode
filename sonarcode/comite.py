@@ -72,19 +72,19 @@ def hierarchy_pos(G, root=None, width=1., vert_gap = 0.2, vert_loc = 0, xcenter 
 # função que seleciona os dados e label de cada classificador
 def dataset_comite(classificador, loc_x, loc_y, class_comite, model_config):
     
-    if model_config.rede_mlp:
-        _idloc, _classe = [], []
-        loc_x = pd.DataFrame(loc_x)
-        loc_y = pd.DataFrame(loc_y)
-        for num_classe in dataset_config[class_comite][classificador]:
-            _idloc.append(loc_y.index[loc_y[0] == num_classe-1].tolist())
-            _classe = np.concatenate(_idloc)
-        x_classe = loc_x.iloc[_classe]
-        y_classe = loc_y.iloc[_classe]
-        return pd.DataFrame(x_classe), pd.DataFrame(y_classe)
-    elif model_config.rede_lstm:
-        indices = np.concatenate([np.where(loc_y==x-1)[0].tolist() for x in class_comite[classificador]], axis=0)
-        return loc_x[indices], loc_y[indices]
+    # if model_config.rede_mlp:
+    #    _idloc, _classe = [], []
+    #    loc_x = pd.DataFrame(loc_x)
+    #    loc_y = pd.DataFrame(loc_y)
+    #    for num_classe in dataset_config[class_comite][classificador]:
+    #        _idloc.append(loc_y.index[loc_y[0] == num_classe-1].tolist())
+    #        _classe = np.concatenate(_idloc)
+    #    x_classe = loc_x.iloc[_classe]
+    #    y_classe = loc_y.iloc[_classe]
+    #    return pd.DataFrame(x_classe), pd.DataFrame(y_classe)
+    # elif model_config.rede_lstm:
+    indices = np.concatenate([np.where(loc_y==x-1)[0].tolist() for x in class_comite[classificador]], axis=0)
+    return loc_x[indices], loc_y[indices]
 
 # função utiliza a clafficador e o label e retorna em que saída o label vai se tornar no classificador
 def mapeamento_classe(comite, classificador, label, hier_label):
