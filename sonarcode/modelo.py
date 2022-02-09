@@ -31,7 +31,7 @@ def modelomlp(data, num_classes, model_config):
     if model_config.use_drop:
       model.add(Dropout(model_config.drop))
   model.add(Dense(num_classes, activation=model_config.funcout))
-  opt = Adam(lr=model_config.opt_lr,beta_1=model_config.opt_beta)
+  # opt = Adam(lr=model_config.opt_lr,beta_1=model_config.opt_beta)
   model.compile(optimizer='adam', loss=model_config.loss, metrics=[model_config.metrics])
   return model
 
