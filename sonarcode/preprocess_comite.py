@@ -69,12 +69,17 @@ def tpsw(signal, npts=None, n=None, p=None, a=None):
         mx = mx[:, 0]
     return mx
      
-def lofar(data, fs, n_pts_fft=1024, n_overlap=0,
+def lofar(data, dec, fs, n_pts_fft=1024, n_overlap=0,
           spectrum_bins_left=None, **tpsw_args):
 
     if not isinstance(data, np.ndarray):
         raise NotImplementedError
-
+    
+    if dec == 1: # decimação do sinal
+        data = data.copy()
+    else:            
+        data = decimate(data, int(dec), ftype='fir', zero_phase=False)
+        
     freq, time, power = spectrogram(data,
                                     window=('hann'),
                                     nperseg=n_pts_fft,
@@ -207,7 +212,8 @@ def preprocess_rawdata24(data, param):
               # .apply(lambda rr: rr['signal'])
               .apply(lambda rr: resample(rr['signal'], rr['fs'], 
                                          final_fs = param.fs))
-              .apply(lofar, 
+              .apply(lofar,
+                     param.decimate,
                      param.fs//param.decimate,
                      param.n_fft,
                      param.overlap,
@@ -218,7 +224,8 @@ def preprocess_rawdata24(data, param):
 def preprocess_rawdata31(data, param):
       return (
             data.apply(lambda rr: rr['signal'])
-              .apply(lofar, 
+              .apply(lofar,
+                     param.decimate,
                      param.fs//param.decimate,
                      param.n_fft,
                      param.overlap,
