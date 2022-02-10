@@ -77,7 +77,10 @@ def lofar(data, dec, fs, n_pts_fft=1024, n_overlap=0,
     
     if dec == 1: # decimação do sinal
         data = data.copy()
-    else:            
+    else:
+        if data.ndim == 2: # temporary fix for stereo audio. 
+            data = data.mean(axis=1)
+            data = data.squeeze()
         data = decimate(data, int(dec), ftype='fir', zero_phase=False)
         
     freq, time, power = spectrogram(data,
