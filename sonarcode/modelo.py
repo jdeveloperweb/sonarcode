@@ -16,6 +16,8 @@ def modelolstm(n_timesteps, n_features, n_outputs, model_config):
   # if model_config.neumlp_1.isalnum():
   if model_config.neumlp_1 != 0:
     model.add(Dense(model_config.neumlp_1, activation=model_config.funcactiv))
+    if model_config.use_drop:
+      model.add(Dropout(model_config.drop))
   model.add(Dense(n_outputs, activation=model_config.funcout))
   model.compile(optimizer= model_config.optimizer, loss= model_config.loss, metrics=[model_config.metrics])
   return model
