@@ -85,7 +85,7 @@ class Resultados:
 
     
 def criar_pastas(path_config, pretrain_config, train_config, lofar_config, 
-                 cnn_config, lstm_config, lstm_config2, mlp_config, dataset_config):
+                 cnn_config, lstm_config, lstm_config2, mlp_config, mlp_config2, dataset_config):
   
   # variaveis iniciais
   allpasta = [path_config.curvas, path_config.logs, 
@@ -148,6 +148,20 @@ def criar_pastas(path_config, pretrain_config, train_config, lofar_config,
       if lstm_config2.neumlp_2 != 0:
         ender_lstm_lstm = ender_lstm_lstm+'_'+str(lstm_config2.neumlp_2)
       allender.append(ender_lstm_lstm)
+      
+    if pretrain_config.rede_mlp_mlp:
+      ender_mlp_mlp = ender+'/mlp_'+str(mlp_config.neumlp_1)
+      if mlp_config.neumlp_2 != 0:
+        ender_mlp_mlp = ender_mlp_mlp+'_'+str(mlp_config.neumlp_2)  
+      if mlp_config.neumlp_1 != 0:
+        ender_mlp_mlp = ender_mlp_mlp+'_mlp_'+str(mlp_config.neumlp_1)
+      if mlp_config.neumlp_2 != 0:
+        ender_mlp_mlp = ender_mlp_mlp+'_'+str(mlp_config.neumlp_2)
+      if mlp_config2.neumlp_1 != 0:
+        ender_mlp_mlp = ender_mlp_mlp+'_mlp_'+str(mlp_config2.neumlp_1)  
+      if mlp_config2.neumlp_2 != 0:
+        ender_mlp_mlp = ender_mlp_mlp+'_'+str(mlp_config2.neumlp_2)
+      allender.append(ender_mlp_mlp)
 
     # criar os diretórios
     newender = [path_config.diretorio(x) for x in allender]
