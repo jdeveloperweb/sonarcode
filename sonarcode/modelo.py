@@ -163,5 +163,6 @@ def modelo2mlp(data_lofar, data_tempo, n_outputs, model_config, model_config2):
   
   # merge imagem gen e label input
   merge=Concatenate()([outputlofar,outputtempo])
-  output = Dense(n_outputs, activation=model_config.funcout)(merge)
+  model_expert = Dense(2*n_outputs, activation=model_config.funcactiv)(merge)
+  output = Dense(n_outputs, activation=model_config.funcout)(model_expert)
   return Model([in_lofar, in_tempo], output)
