@@ -161,7 +161,11 @@ def criar_pastas(path_config, pretrain_config, train_config, lofar_config,
 
     # criar os diretórios
     newender = [path_config.diretorio(x) for x in allender]
-    outender = [path_config.diretorio(x+'/epochs_'+str(train_config.epochs) \
-                                      +'_decimate_'+str(lofar_config.decimate)) for x in allender]
+    if pretrain_config.rede_cnn:
+      outender = [path_config.diretorio(x+'/epochs_'+str(train_config.epochs) \
+                                        +'_decimate_'+str(lofar_config.decimate)+'_kernel_'+str(cnn_config.kernel_size)) for x in allender]
+    else:
+      outender = [path_config.diretorio(x+'/epochs_'+str(train_config.epochs) \
+                                        +'_decimate_'+str(lofar_config.decimate)) for x in allender]
   
   return [x[x.index('window'):] if dataset_config.tipo =="normal" else x[x.index('comite'):] for x in outender]
