@@ -60,6 +60,29 @@ def modelocnn(data, num_classes, model_config):
   model.compile(optimizer=model_config.optimizer, loss=model_config.loss, metrics=[model_config.metrics])
   return model
 
+def modelocnn1(data, num_classes, model_config):
+  model = Sequential()
+  input_shape=(data.shape[1],1)
+  model.add(Conv1D(model_config.neucnn_1, kernel_size=model_config.kernel_size,padding = 'same', activation=model_config.funcactiv, input_shape=input_shape))
+  if model_config.use_drop:
+    model.add(Dropout(model_config.drop))
+  if model_config.neucnn_2 != 0:
+    model.add(Conv1D(model_config.neucnn_2, kernel_size=model_config.kernel_size,padding = 'same',activation=model_config.funcactiv))
+    if model_config.use_drop:
+      model.add(Dropout(model_config.drop))
+  model.add(Flatten())
+  if model_config.neumlp_1 != 0:
+    model.add(Dense(model_config.neumlp_1, activation=model_config.funcactiv))
+    if model_config.use_drop:
+      model.add(Dropout(model_config.drop))  
+  if model_config.neumlp_2 != 0:
+    model.add(Dense(model_config.neumlp_2, activation=model_config.funcactiv))
+    if model_config.use_drop:
+      model.add(Dropout(model_config.drop))
+  model.add(Dense(num_classes, activation=model_config.funcout))
+  model.compile(optimizer=model_config.optimizer, loss=model_config.loss, metrics=[model_config.metrics])
+  return model
+
 def modelosublstm(data, n_outputs, model_config):
 
   input_shapedata = (data.shape[1:])
