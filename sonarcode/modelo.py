@@ -61,8 +61,8 @@ def modelocnn(data, num_classes, model_config):
   return model
 
 def modelocnn1(data, num_classes, model_config):
-  model = Sequential()
   input_shape=(data.shape[1],1)
+  model = Sequential()
   model.add(Conv1D(model_config.neucnn_1, kernel_size=model_config.kernel_size,padding = 'same', activation=model_config.funcactiv, input_shape=input_shape))
   if model_config.use_drop:
     model.add(Dropout(model_config.drop))
