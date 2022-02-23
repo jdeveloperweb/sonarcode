@@ -134,8 +134,11 @@ def demon(data, fs, n_fft=1024, max_freq=35, overlap_ratio=0.5, apply_bandpass=T
                 fp = bandpass_specs["fp"]
                 fs = bandpass_specs["fs"]
 
-                wp = np.array(fp)/nyq
-                ws = np.array(fs)/nyq
+                # wp = np.array(fp)/nyq
+                # ws = np.array(fs)/nyq
+                
+                wp = np.array(fp)/(fs/2)
+                ws = np.array(fs)/(fs/2)
                 
                 rp = bandpass_specs["rs"]
                 As = bandpass_specs["As"]
