@@ -138,7 +138,7 @@ def demon(data, fs, n_fft=1024, max_freq=35, overlap_ratio=0.5, apply_bandpass=T
                 ws = np.array(fs)/nyq
                 
                 rp = bandpass_specs["rs"]
-                As = bandpass_specs["as"]
+                As = bandpass_specs["As"]
             except KeyError as e:
                 raise KeyError("Missing %s specification for bandpass filter" % e)
         else:
