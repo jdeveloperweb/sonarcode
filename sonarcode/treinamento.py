@@ -38,9 +38,9 @@ def melhor_modelo(sp_fold,val_fold):
 
   
 # função de controle (TensorBoard + Early Stopping + CheckPoint)
-def control_train(train_config, log_dir, modelpath):
+def control_train(train_config, modelpath):
 
-  tensor_board = [callbacks.TensorBoard(log_dir=log_dir)]
+  #tensor_board = [callbacks.TensorBoard(log_dir=log_dir)]
 
   earlystopping = callbacks.EarlyStopping(monitor='val_loss',
                                           patience=train_config.patience, 
@@ -54,7 +54,7 @@ def control_train(train_config, log_dir, modelpath):
                                          save_best_only=True,
                                          mode='min')
  
-  return [earlystopping,checkpoint, tensor_board]
+  return [earlystopping,checkpoint]
 
 # separar folds para o treinamento
 def folds_treinamento(config_train, x_data, y_data):
