@@ -253,9 +253,9 @@ def preprocess_rawdatademon24(data, param):
               .apply(demon,
                      param.fs,
                      param.n_fft,
-                     35,
+                     param.freq_max,
                      param.overlap,
-                     True
+                     param.apply_band
                     )
       )
 
@@ -265,8 +265,8 @@ def preprocess_rawdatademon31(data, param):
               .apply(demon,
                      param.fs,
                      param.n_fft,
-                     35,
+                     param.freq_max,
                      param.overlap,
-                     True
+                     param.apply_band
                     )
       )
