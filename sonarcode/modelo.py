@@ -175,14 +175,14 @@ def modelo2mlp(data_lofar, data_tempo, n_outputs, model_config, model_config2):
     X = Dropout(model_config.drop)(X)
   if model_config.neumlp_2 != 0:
     X = Dense(model_config.neumlp_2, activation=model_config.funcactiv)(X)
-  outputlofar = Dense(n_outputs, activation=model_config.funcout)(X)
+  outputlofar = Dense(n_outputs, activation=model_config.funcactiv)(X)
   # _______________________________________________________________________
   W = Dense(model_config2.neumlp_1)(in_tempo)
   if model_config2.use_drop:
     W = Dropout(model_config2.drop)(W)
   if model_config2.neumlp_2 != 0:
     W = Dense(model_config2.neumlp_2, activation=model_config2.funcactiv)(W)
-  outputtempo = Dense(n_outputs, activation=model_config2.funcout)(W)
+  outputtempo = Dense(n_outputs, activation=model_config2.funcactiv)(W)
   
   # merge imagem gen e label input
   merge=Concatenate()([outputlofar,outputtempo])
