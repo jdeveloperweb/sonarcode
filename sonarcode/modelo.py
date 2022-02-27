@@ -214,7 +214,7 @@ def modelomlplstm(data_lofar, data_tempo, n_outputs, model_config, model_config2
   W = Flatten()(W)
   if model_config2.neumlp_1 != 0:
     W = Dense(model_config2.neumlp_1, activation=model_config2.funcactiv)(W)
-  outputtempo = Dense(n_outputs, activation=model_config2.funcout)(W)
+  outputtempo = Dense(n_outputs, activation=model_config2.funcactiv)(W)
   
   # merge imagem gen e label input
   merge=Concatenate()([outputlofar,outputtempo])
