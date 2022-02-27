@@ -91,7 +91,8 @@ def criar_pastas(path_config, pretrain_config, train_config, lofar_config,
   # allpasta = [path_config.curvas, path_config.logs, 
   #             path_config.modelos, path_config.his_obj, path_config.his_plan]  
   allpasta = [path_config.curvas, path_config.modelos, path_config.his_obj, path_config.his_plan]
-  ender_cnn, ender_lstm, ender_mlp = None, None, None
+  
+  ender_cnn, ender_lstm, ender_lstm_lstm, ender_mlp, ender_mlp_mlp = None, None, None, None, None
   
   # cria estrutura até as janelas
   for pasta in allpasta:
