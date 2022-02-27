@@ -113,8 +113,14 @@ def lofar(data, dec, fs, n_pts_fft=1024, n_overlap=0,
 def demon(data, fs, n_fft=1024, max_freq=35, overlap_ratio=0.5, apply_bandpass=True, bandpass_specs=None, method='abs'):
     if not isinstance(data, np.ndarray):
         raise ValueError("Input must be of type numpy.ndarray. %s was passed" % type(data))
+        
+    # transformar os dados de stereo para mono
+    if data.ndim == 2: # temporary fix for stereo audio.
+        data = data.mean(axis=1)
+        data = data.squeeze()
+    
     x = data.copy()
-
+    
     first_pass_sr = 1250 # 31250/25
 
     q1 = round(fs/first_pass_sr) # 25 for 31250 sample rate ; decimatio ratio for 1st pass
