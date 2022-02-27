@@ -244,3 +244,29 @@ def preprocess_rawdata31(data, param):
                      param.bins
                     )
       )
+
+def preprocess_rawdatademon24(data, param):
+      return (
+            data
+              .apply(lambda rr: resample(rr['signal'], rr['fs'], 
+                                         final_fs = param.fs))
+              .apply(demon,
+                     param.fs,
+                     param.n_fft,
+                     35,
+                     param.overlap,
+                     True
+                    )
+      )
+
+def preprocess_rawdatademon31(data, param):
+      return (
+            data.apply(lambda rr: rr['signal'])
+              .apply(demon,
+                     param.fs,
+                     param.n_fft,
+                     35,
+                     param.overlap,
+                     True
+                    )
+      )
