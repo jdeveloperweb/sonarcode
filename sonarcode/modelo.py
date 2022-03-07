@@ -9,11 +9,11 @@ from keras.utils.vis_utils import plot_model
 
 def modelolstm(n_timesteps, n_features, n_outputs, model_config):
   model = Sequential()
-  model.add(LSTM(model_config.neulstm_1, recurrent_dropout=0.2, input_shape=(n_timesteps,n_features)))
+  model.add(LSTM(model_config.neulstm_1, input_shape=(n_timesteps,n_features)))
   if model_config.use_drop:
     model.add(Dropout(model_config.drop))
-  model.add(Flatten())
-  # if model_config.neumlp_1.isalnum():
+  if model_config.use_flatten:
+    model.add(Flatten())
   if model_config.neumlp_1 != 0:
     model.add(Dense(model_config.neumlp_1, activation=model_config.funcactiv))
     if model_config.use_drop:
