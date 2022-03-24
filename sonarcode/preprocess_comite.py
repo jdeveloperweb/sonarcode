@@ -121,8 +121,9 @@ def demon(data, fs, n_fft=1024, max_freq=35, overlap_ratio=0.5, apply_bandpass=T
     
     x = data.copy()
     
-    first_pass_sr = 1250 # 31250/25
-
+    # first_pass_sr = 1250 # 31250/25
+    first_pass_sr = round(fs/25)
+    
     q1 = round(fs/first_pass_sr) # 25 for 31250 sample rate ; decimatio ratio for 1st pass
     q2 = round((fs/q1)/(2*max_freq)) # decimatio ratio for 2nd pass
 
