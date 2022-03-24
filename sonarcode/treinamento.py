@@ -58,8 +58,8 @@ def control_train(train_config, modelpath):
 
 # separar folds para o treinamento
 def folds_treinamento(config_train, x_data, y_data):
-    dict_train = dict.fromkeys(list(range(config_train.split)) , None)
-    dict_valid = dict.fromkeys(list(range(config_train.split)) , None)
+    dict_train = dict.fromkeys(list(range(config_train.folds)) , None)
+    dict_valid = dict.fromkeys(list(range(config_train.folds)) , None)
     div_fold, div_test = [], []
     ExtSplitKfold = StratifiedKFold(n_splits=config_train.split, 
                                 shuffle=True, random_state=config_train.seed)
