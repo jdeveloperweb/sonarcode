@@ -121,6 +121,8 @@ def demon(data, fs, n_fft=1024, max_freq=35, overlap_ratio=0.5, apply_bandpass=T
     
     x = data.copy()
     
+    print('dado de entrada: ', x.shape)
+        
     # first_pass_sr = 1250 # 31250/25
     first_pass_sr = round(fs/25)
     
@@ -166,7 +168,11 @@ def demon(data, fs, n_fft=1024, max_freq=35, overlap_ratio=0.5, apply_bandpass=T
         raise ValueError("Method not found")
 
     x = decimate(x, q1, ftype='fir', zero_phase=False)
+    
+    print('dado de entrada: ', x.shape)
+
     x = decimate(x, q2, ftype='fir', zero_phase=False)
+    print('dado de entrada: ', x.shape)
 
     final_fs = (fs//q1)//q2
 
