@@ -62,7 +62,7 @@ def folds_treinamento(config_train, x_data, y_data):
     dict_valid = dict.fromkeys(list(range(config_train.split)) , None)
     div_fold, div_test = [], []
     ExtSplitKfold = StratifiedKFold(n_splits=config_train.split, 
-                                shuffle=False, random_state=config_train.seed)
+                                shuffle=True, random_state=config_train.seed)
     n_test = 0
     for id_fold, id_test in ExtSplitKfold.split(x_data, y_data):
         div_test.append(id_test)
@@ -71,7 +71,7 @@ def folds_treinamento(config_train, x_data, y_data):
         div_train, div_valid = [], []
         # K-fold Cross Validation model evaluation
         IntSplitKfold = StratifiedKFold(n_splits= config_train.folds, 
-                                        shuffle=False, random_state=config_train.seed)
+                                        shuffle=True, random_state=config_train.seed)
         for id_train, id_valid in IntSplitKfold.split(x_data[id_fold], y_data[id_fold]):
             div_train.append(id_train)
             div_valid.append(id_valid)
