@@ -84,6 +84,9 @@ def dataset_comite(classificador, loc_x, loc_y, class_comite, model_config):
     #    return pd.DataFrame(x_classe), pd.DataFrame(y_classe)
     # elif model_config.rede_lstm:
     indices = np.concatenate([np.where(loc_y==x-1)[0].tolist() for x in class_comite[classificador]], axis=0)
+    indices= [int(i) for i in indices]
+    indices = np.array(indices)
+    
     return loc_x[indices], loc_y[indices]
 
 # função utiliza a clafficador e o label e retorna em que saída o label vai se tornar no classificador
