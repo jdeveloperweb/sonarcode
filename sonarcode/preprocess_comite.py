@@ -121,7 +121,7 @@ def demon(data, fs, n_fft=1024, max_freq=35, overlap_ratio=0.5, apply_bandpass=T
     
     x = data.copy()
     
-    print('dado de entrada: ', x.shape)
+    # print('dado de entrada: ', x.shape)
         
     # first_pass_sr = 1250 # 31250/25
     first_pass_sr = round(fs/25)
