@@ -58,8 +58,8 @@ def get_lofargram(corrida, ship_label):
       fontweight="bold"
     )
 
-    ax.set_ylabel("Janelas", fontsize=m_fontsize, fontweight="bold")
-    ax.set_xlabel("Intervalos", fontsize=m_fontsize, fontweight="bold")
+    ax.set_ylabel("Tempo (segundos)", fontsize=m_fontsize, fontweight="bold")
+    ax.set_xlabel("Frequência (Hz)", fontsize=m_fontsize, fontweight="bold")
     ax.set_xticks(np.linspace(0, lofargram_data.shape[1], 9))
 
     cbar = fig.colorbar(im, ax=ax)
