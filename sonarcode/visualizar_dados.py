@@ -64,7 +64,7 @@ def get_lofargram(corrida, ship_label):
 
     cbar = fig.colorbar(im, ax=ax)
     cbar.ax.set_ylabel('dB', fontweight='bold', fontsize=m_fontsize)
-    plt.savefig('/content/drive/MyDrive/Colab Notebooks/Mestrado/Datasets/Dados/Imagens'+str(ship_label)+'.png', format='png')
+    plt.savefig('/content/drive/MyDrive/Colab Notebooks/Mestrado/Datasets/Dados/Imagens/'+str(ship_label)+'.png', format='png')
     plt.show()
 
     del lofargram_data
