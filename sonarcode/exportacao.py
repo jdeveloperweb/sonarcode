@@ -6,12 +6,12 @@ import matplotlib.pyplot as plt
 
 class Caminho:
   def __init__(self):
-    self.logs = "/gdrive/MyDrive/lps/goltz/resultados_marlon/logs/"
-    self.modelos =  "/gdrive/MyDrive/lps/goltz/resultados_marlon/modelos/"
-    self.curvas = "/gdrive/MyDrive/lps/goltz/resultados_marlon/curvas/"
-    self.history = "/gdrive/MyDrive/lps/goltz/resultados_marlon/history/"
-    self.his_obj = "/gdrive/MyDrive/lps/goltz/resultados_marlon/history/objeto/"
-    self.his_plan = "/gdrive/MyDrive/lps/goltz/resultados_marlon/history/planilha/"
+    self.logs = "/content/drive/MyDrive/Colab Notebooks/Mestrado/resultados/logs/"
+    self.modelos =  "/content/drive/MyDrive/Colab Notebooks/Mestrado/resultados/modelos/"
+    self.curvas = "/content/drive/MyDrive/Colab Notebooks/Mestrado/resultados/curvas/"
+    self.history = "/content/drive/MyDrive/Colab Notebooks/Mestrado/resultados/history/"
+    self.his_obj = "/content/drive/MyDrive/Colab Notebooks/Mestrado/resultados/history/objeto/"
+    self.his_plan = "/content/drive/MyDrive/Colab Notebooks/Mestrado/resultados/history/planilha/"
   
   def diretorio(self, caminho):
     if os.path.isdir(caminho):
